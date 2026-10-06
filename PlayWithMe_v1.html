@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="PlayWithMe — HD, 4K, 8K and 3D wallpapers for phone and PC.">
+<title>PlayWithMe — Premium Wallpapers</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#07090f;--card:#10141d;--text:#f5f7fb;--muted:#9aa4b2;--accent:#6c63ff;--accent2:#00d4ff}
+body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+header{padding:18px 6%;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #1b2130;background:#080b12cc;position:sticky;top:0;z-index:10;backdrop-filter:blur(14px)}
+.logo{font-size:25px;font-weight:800;letter-spacing:.4px}.logo span{color:var(--accent2)}
+nav{display:flex;gap:16px;color:var(--muted);font-size:14px}
+.hero{text-align:center;padding:70px 18px 42px;background:radial-gradient(circle at 50% 0,#252064 0,#0b0e18 42%,#07090f 75%)}
+.badge{display:inline-block;padding:7px 13px;border:1px solid #333d58;border-radius:99px;color:#aab7ff;font-size:12px;margin-bottom:18px}
+h1{font-size:clamp(38px,8vw,76px);line-height:1.02;margin-bottom:15px}
+h1 span{background:linear-gradient(90deg,#7c6cff,#00d4ff);-webkit-background-clip:text;color:transparent}
+.hero p{color:var(--muted);max-width:650px;margin:0 auto 25px;line-height:1.6}
+.search{max-width:720px;margin:auto;display:flex;background:#111622;border:1px solid #2a3347;border-radius:16px;padding:7px;box-shadow:0 12px 40px #0008}
+.search input{flex:1;background:transparent;border:0;outline:0;color:white;font-size:16px;padding:13px}
+.search button,.download{border:0;border-radius:11px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:white;font-weight:700;padding:12px 20px;cursor:pointer}
+.container{width:min(1200px,92%);margin:30px auto}
+.categories{display:flex;gap:10px;overflow:auto;padding-bottom:10px}.cat{white-space:nowrap;border:1px solid #283044;background:#10141d;color:#c9d0dc;padding:9px 15px;border-radius:99px;cursor:pointer}.cat.active,.cat:hover{background:#292456;border-color:#6258ff;color:white}
+.toolbar{display:flex;justify-content:space-between;align-items:center;margin:25px 0 15px}.toolbar h2{font-size:21px}.count{color:var(--muted);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.card{background:var(--card);border:1px solid #1c2433;border-radius:15px;overflow:hidden;cursor:pointer;transition:.25s;position:relative}.card:hover{transform:translateY(-4px);border-color:#46517a}
+.card img{width:100%;height:230px;object-fit:cover;display:block}.info{padding:11px}.title{font-weight:700;font-size:14px}.meta{color:var(--muted);font-size:12px;margin-top:5px}
+.empty{text-align:center;padding:60px 15px;color:var(--muted);display:none}
+footer{text-align:center;color:#687386;border-top:1px solid #1a202c;margin-top:50px;padding:25px;font-size:13px}
+.modal{display:none;position:fixed;inset:0;background:#000c;z-index:50;padding:25px;align-items:center;justify-content:center}.modal.show{display:flex}
+.modalbox{width:min(900px,100%);max-height:94vh;overflow:auto;background:#0e131c;border:1px solid #2b3448;border-radius:18px;padding:15px}
+.modal img{width:100%;max-height:62vh;object-fit:contain;border-radius:12px;background:#05070b}
+.modalhead{display:flex;justify-content:space-between;align-items:center;padding:5px 3px 12px}.close{font-size:28px;color:#9aa4b2;cursor:pointer}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}.actions select{background:#171d29;color:white;border:1px solid #30394b;border-radius:10px;padding:11px}
+@media(max-width:900px){.grid{grid-template-columns:repeat(3,1fr)}.card img{height:220px}}
+@media(max-width:650px){nav{display:none}.hero{padding-top:50px}.grid{grid-template-columns:repeat(2,1fr);gap:11px}.card img{height:190px}.search button{padding:11px 13px}.modal{padding:10px}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Play<span>WithMe</span></div>
+  <nav><span>Home</span><span>4K</span><span>8K</span><span>3D</span></nav>
+</header>
+
+<section class="hero">
+  <div class="badge">✦ PREMIUM WALLPAPER HUB</div>
+  <h1>Find Your <span>Perfect Wallpaper.</span></h1>
+  <p>Search beautiful wallpapers for your phone and PC — HD, 4K, 8K and 3D styles.</p>
+  <div class="search">
+    <input id="searchInput" placeholder="Search BMW, gaming, nature, anime..." autocomplete="off">
+    <button onclick="searchWallpapers()">Search</button>
+  </div>
+</section>
+
+<main class="container">
+  <div class="categories">
+    <button class="cat active" onclick="setCategory('All',this)">All</button>
+    <button class="cat" onclick="setCategory('Gaming',this)">🎮 Gaming</button>
+    <button class="cat" onclick="setCategory('Cars',this)">🏎️ Cars</button>
+    <button class="cat" onclick="setCategory('Nature',this)">🌌 Nature</button>
+    <button class="cat" onclick="setCategory('Anime',this)">⚡ Anime</button>
+    <button class="cat" onclick="setCategory('Space',this)">🚀 Space</button>
+    <button class="cat" onclick="setCategory('3D',this)">🧊 3D</button>
+  </div>
+
+  <div class="toolbar">
+    <h2 id="heading">Trending Wallpapers</h2>
+    <div class="count" id="count"></div>
+  </div>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty">No wallpapers found. Try another search.</div>
+</main>
+
+<footer>© 2026 PlayWithMe • Wallpaper demo v1</footer>
+
+<div class="modal" id="modal" onclick="closeOutside(event)">
+  <div class="modalbox">
+    <div class="modalhead">
+      <strong id="modalTitle">Wallpaper</strong>
+      <span class="close" onclick="closeModal()">×</span>
+    </div>
+    <img id="modalImg" src="" alt="Wallpaper preview">
+    <div class="actions">
+      <select id="resolution">
+        <option value="1920x1080">PC — Full HD 1920×1080</option>
+        <option value="2560x1440">PC — 2K 2560×1440</option>
+        <option value="3840x2160">PC — 4K 3840×2160</option>
+        <option value="7680x4320">PC — 8K 7680×4320</option>
+        <option value="1080x1920">Phone — HD 1080×1920</option>
+        <option value="1440x2560">Phone — 2K 1440×2560</option>
+      </select>
+      <button class="download" onclick="downloadWallpaper()">⬇ Download Wallpaper</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const wallpapers=[
+ {title:"Neon Gaming City",cat:"Gaming",q:"neon gaming city cyberpunk",w:"1600",h:"1000"},
+ {title:"BMW Night Drive",cat:"Cars",q:"BMW car night road",w:"1600",h:"1000"},
+ {title:"Mountain Galaxy",cat:"Nature",q:"mountain galaxy night",w:"1600",h:"1000"},
+ {title:"Cyber Anime",cat:"Anime",q:"anime cyberpunk character",w:"1600",h:"1000"},
+ {title:"Deep Space",cat:"Space",q:"deep space galaxy stars",w:"1600",h:"1000"},
+ {title:"3D Blue Orb",cat:"3D",q:"3d blue abstract sphere",w:"1600",h:"1000"},
+ {title:"Gaming Setup",cat:"Gaming",q:"gaming setup RGB computer",w:"1600",h:"1000"},
+ {title:"Supercar",cat:"Cars",q:"supercar black dramatic",w:"1600",h:"1000"},
+ {title:"Ocean Sunset",cat:"Nature",q:"ocean sunset cinematic",w:"1600",h:"1000"},
+ {title:"Anime City",cat:"Anime",q:"anime city night neon",w:"1600",h:"1000"},
+ {title:"Planet Earth",cat:"Space",q:"earth from space",w:"1600",h:"1000"},
+ {title:"3D Abstract",cat:"3D",q:"3d abstract colorful shapes",w:"1600",h:"1000"}
+];
+
+let currentList=[...wallpapers], currentWallpaper=null;
+
+function imgUrl(x){return `https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=${x.w}&h=${x.h}&q=85`;}
+// Demo uses a safe public image source; real API integration comes next.
+
+function render(list){
+ const grid=document.getElementById("grid"); grid.innerHTML="";
+ document.getElementById("count").textContent=list.length+" wallpapers";
+ document.getElementById("empty").style.display=list.length?"none":"block";
+ list.forEach((x,i)=>{
+   const card=document.createElement("div");card.className="card";
+   card.innerHTML=`<img src="${imgUrl(x)}" alt="${x.title}" loading="lazy"><div class="info"><div class="title">${x.title}</div><div class="meta">${x.cat} • HD / 4K / 8K</div></div>`;
+   card.onclick=()=>openModal(x);
+   grid.appendChild(card);
+ });
+}
+function searchWallpapers(){
+ const term=document.getElementById("searchInput").value.trim().toLowerCase();
+ currentList=wallpapers.filter(x=>!term||(`${x.title} ${x.cat} ${x.q}`).toLowerCase().includes(term));
+ document.getElementById("heading").textContent=term?`Results for "${term}"`:"Trending Wallpapers";
+ render(currentList);
+}
+function setCategory(cat,el){
+ document.querySelectorAll(".cat").forEach(x=>x.classList.remove("active"));el.classList.add("active");
+ currentList=cat==="All"?[...wallpapers]:wallpapers.filter(x=>x.cat===cat);
+ document.getElementById("heading").textContent=cat==="All"?"Trending Wallpapers":cat+" Wallpapers";
+ document.getElementById("searchInput").value="";
+ render(currentList);
+}
+document.getElementById("searchInput").addEventListener("keydown",e=>{if(e.key==="Enter")searchWallpapers()});
+function openModal(x){
+ currentWallpaper=x;
+ document.getElementById("modalTitle").textContent=x.title;
+ document.getElementById("modalImg").src=imgUrl(x);
+ document.getElementById("modal").classList.add("show");
+}
+function closeModal(){document.getElementById("modal").classList.remove("show")}
+function closeOutside(e){if(e.target.id==="modal")closeModal()}
+async function downloadWallpaper(){
+ if(!currentWallpaper)return;
+ const url=imgUrl(currentWallpaper);
+ try{
+   const r=await fetch(url); const blob=await r.blob();
+   const a=document.createElement("a");a.href=URL.createObjectURL(blob);
+   a.download=currentWallpaper.title.replace(/\s+/g,"-").toLowerCase()+".jpg";
+   document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(a.href);
+ }catch(e){window.open(url,"_blank")}
+}
+render(currentList);
+</script>
+</body>
+</html>
